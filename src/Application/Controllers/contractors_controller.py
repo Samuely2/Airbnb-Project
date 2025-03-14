@@ -1,17 +1,17 @@
-from src.Application.Services import users_services
+from src.Application.Services import contractors_services
 from src.database import db
 
-class UsersController:
+class ContractorsController:
     @staticmethod   
-    def create_user(data):
+    def create_contractor(data):
         try:
-            new_user = users_services.UsersServices.create_user(
+            new_contractor = contractors_services.UsersServices.create_contractor(
                 session=db.session,
                 name=data['name'],           
                 phone=data['phone'],
                 email=data['email'],
                 password=data['password']
             )
-            return new_user
+            return new_contractor
         except Exception as e:
             raise e

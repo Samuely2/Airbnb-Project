@@ -1,20 +1,20 @@
-from src.Infrastructure.Models.users import Users
+from src.Infrastructure.Models.contractors import Contractors
 
-class UsersServices:
+class ContractorsServices:
     @staticmethod
-    def create_user(session, name, phone, email, password):
+    def create_contractor(session, name, phone, email, password):
         try:            
-            users = Users(
+            contractor = Contractors(
                 name=name,
                 phone=phone,
                 email=email,
                 password=password
             )
 
-            session.add(users)
+            session.add(contractor)
             session.commit()
 
-            return users
+            return contractor
         except Exception as e:
             session.rollback()
             raise e
