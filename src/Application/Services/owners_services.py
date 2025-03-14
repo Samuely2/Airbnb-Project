@@ -1,5 +1,4 @@
 from src.Infrastructure.Models.owners import Owners
-from src.database import db
 
 class OwnersServices:
     @staticmethod

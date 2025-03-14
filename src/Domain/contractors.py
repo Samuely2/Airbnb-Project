@@ -1,4 +1,4 @@
-class Users:
+class Contractors:
     def __init__(self, name: str, phone: str, email: str, password: str):
         self.name = name
         self.phone = phone

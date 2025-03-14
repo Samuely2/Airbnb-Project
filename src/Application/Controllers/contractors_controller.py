@@ -1,11 +1,11 @@
-from src.Application.Services import contractors_services
+from src.Application.Services.contractors_services import ContractorsServices
 from src.database import db
 
 class ContractorsController:
     @staticmethod   
     def create_contractor(data):
         try:
-            new_contractor = contractors_services.UsersServices.create_contractor(
+            new_contractor = ContractorsServices.create_contractor(
                 session=db.session,
                 name=data['name'],           
                 phone=data['phone'],
