@@ -12,10 +12,7 @@ Git (opcional, para clonar o repositório)
 
 Passo a Passo para Rodar o Projeto
 1. Clonar o Repositório (Opcional)
-Se o projeto estiver hospedado em um repositório Git, você pode cloná-lo para o seu ambiente local:
-
-git clone https://github.com/seu-usuario/airbnb-project.git
-cd airbnb-project
+   
 2. Instalar as Dependências do Python
 Instale as bibliotecas necessárias listadas no arquivo requirements.txt:
 
