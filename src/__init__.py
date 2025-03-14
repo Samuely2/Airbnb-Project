@@ -1,10 +1,11 @@
 from flask import Flask
+from flask_cors import CORS
 from src.database import db, migrate
 
 def create_app():
     # Cria a instância do Flask
     app = Flask(__name__)
-
+    CORS(app)  # Habilita CORS para todas as rotas
     # Configuração do banco de dados
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@db/mydb'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
