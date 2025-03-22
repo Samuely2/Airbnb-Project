@@ -9,8 +9,8 @@ class Hall(db.Model):
     location = db.Column(db.String(100), nullable=False) 
     description = db.Column(db.String(255), nullable=True)
 
-    fk_owner = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    fk_typeHall = db.Column(db.Integer, db.ForeignKey('type_hall.id'), nullable=False)
+    fk_owner = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
+    fk_typeHall = db.Column(db.Integer, db.ForeignKey('TypeHall.id'), nullable=False)
 
     owner = db.relationship("User", backref="Halls")
     typeHall = db.relationship("TypeHall", backref="Halls")

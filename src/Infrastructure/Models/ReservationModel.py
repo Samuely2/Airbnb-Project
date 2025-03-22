@@ -8,8 +8,8 @@ class Reservation(db.Model):
     __tablename__ = "Reservations"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    fk_hall = db.Column(db.Integer, db.ForeignKey("halls.id"), nullable=False)
-    fk_user = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    fk_hall = db.Column(db.Integer, db.ForeignKey("Halls.id"), nullable=False)
+    fk_user = db.Column(db.Integer, db.ForeignKey("Users.id"), nullable=False)
     
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
