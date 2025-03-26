@@ -1,8 +1,8 @@
 """Recriação do banco de dados
 
-Revision ID: de734556c013
+Revision ID: 50a61dfe545e
 Revises: 
-Create Date: 2025-03-22 15:36:35.454967
+Create Date: 2025-03-26 02:47:15.670688
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'de734556c013'
+revision = '50a61dfe545e'
 down_revision = None
 branch_labels = None
 depends_on = None

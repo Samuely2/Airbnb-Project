@@ -4,7 +4,7 @@ from src.Domain.enums.typeUsersEnum import TypeUserEnum
 
 class UsersService:
     @staticmethod
-    def create_user(session, name, phone, email, password, address, typeUser=TypeUserEnum.OWNER):
+    def create_user(session, name, phone, email, password, address, typeUser):
         try:
             user = Users(
                 name=name,

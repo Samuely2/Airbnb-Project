@@ -16,8 +16,8 @@ class Reservation(db.Model):
     
     status = db.Column(db.Enum(ReservationStatusEnum), default=ReservationStatusEnum.PENDING, nullable=False)
 
-    hall = db.relationship("Hall", backref="Reservations")
-    user = db.relationship("User", backref="Reservations")
+    hall = db.relationship("Halls", backref="reservations")
+    user = db.relationship("Users", backref="reservations")
 
     def __init__(self, fk_hall, fk_user, start_date, end_date, status=ReservationStatusEnum.PENDING):
         self.fk_hall = fk_hall

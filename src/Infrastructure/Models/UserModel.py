@@ -3,6 +3,7 @@ from src.Domain.enums.typeUsersEnum import TypeUserEnum
 
 class Users(db.Model):
     __tablename__ = "Users"
+    
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False)    
     phone = db.Column(db.String(20), nullable=False)
@@ -11,8 +12,6 @@ class Users(db.Model):
     address = db.Column(db.String(100), nullable=False)
     typeUser = db.Column(db.Enum(TypeUserEnum), nullable=False, default=TypeUserEnum.OWNER)
 
-    halls = db.relationship('Hall', backref='contractors', lazy=True)
-
     def __init__(self, name, phone, email, password, address, typeUser):
         self.name = name
         self.phone = phone
@@ -20,4 +19,3 @@ class Users(db.Model):
         self.password = password
         self.address = address
         self.typeUser = typeUser
-         

@@ -12,8 +12,8 @@ class Hall(db.Model):
     fk_owner = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
     fk_typeHall = db.Column(db.Integer, db.ForeignKey('TypeHall.id'), nullable=False)
 
-    owner = db.relationship("User", backref="Halls")
-    typeHall = db.relationship("TypeHall", backref="Halls")
+    owner = db.relationship("Users", backref="halls") 
+    typeHall = db.relationship("TypeHall", backref="halls")
 
     def __init__(self, name, location, description, fk_owner, fk_typeHall):
         self.name = name
