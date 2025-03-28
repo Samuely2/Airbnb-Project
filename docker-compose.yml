@@ -1,23 +1,46 @@
 services:
-  web:
+  backend:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
     volumes:
-      - .:/app
+      - ./backend:/app
     environment:
-      FLASK_APP: app.py  # Aponte para o arquivo correto
+      FLASK_APP: app.py
       FLASK_ENV: development
       MYSQL_HOST: db
       MYSQL_ROOT_PASSWORD: '123456'
-      MYSQL_DATABASE: mydb  # Corrigido para MYSQL_DATABASE
+      MYSQL_DATABASE: mydb
     depends_on:
       - db
     networks:
       - app-network
+    restart: unless-stopped
 
+  # Frontend React
+  frontend:
+    build:
+      context: ./frontend  # assumindo que o front-end está nesta pasta
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_URL=http://backend:5000  # importante para chamadas API
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    stdin_open: true  # necessário para React em desenvolvimento
+    tty: true        # necessário para React em desenvolvimento
+    restart: unless-stopped
+
+  # Banco de dados MySQL
   db:
     image: mysql:latest
     container_name: airbnb-db 
@@ -30,7 +53,9 @@ services:
       - my-db-volume:/var/lib/mysql
     networks:
       - app-network
+    restart: unless-stopped
 
+  # PHPMyAdmin
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     environment:
@@ -43,9 +68,11 @@ services:
       - db
     networks:
       - app-network
+    restart: unless-stopped
 
 volumes:
   my-db-volume:
 
 networks:
   app-network:
+    driver: bridge

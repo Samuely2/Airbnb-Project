@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from src.database import db, migrate
 from src.Application.Routes.HallsRoutes import hall_bp
 from src.Application.Routes.TypeHallsRoutes import typehall_bp
@@ -7,6 +8,7 @@ from src.Application.Routes.UserRoutes import user_bp
 
 def create_app():
     app = Flask(__name__)
+    CORS(app) 
 
     # Configuração do banco de dados
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@db/mydb'
