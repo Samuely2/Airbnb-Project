@@ -26,3 +26,29 @@ def create_user():
         return jsonify({"message": "User created successfully", "user_id": user.id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@user_bp.route("/login", methods=["POST"])
+def login():
+    try:
+        data = request.json
+        
+        if not data or "email" not in data or "password" not in data:
+            return jsonify({"error": "Email e senha são obrigatórios"}), 400
+
+        user = UsersService.login_user(db.session, data['email'], data['password'])
+        
+        if not user:
+            return jsonify({"error": "Credenciais inválidas"}), 401
+
+        return jsonify({
+            "message": "Login realizado com sucesso",
+            "user": {
+                "id": user.id,
+                "name": user.name,
+                "email": user.email,
+                "typeUser": user.typeUser.value if hasattr(user.typeUser, 'value') else user.typeUser
+            }
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

@@ -29,9 +29,15 @@ const LoginForm = () => {
 
       await loginUser(formData);
       setMessage('Login realizado com sucesso!');
-      
+      // Após o sucesso da API:
+navigate('/home', { 
+  state: { 
+    name: formData.name, // Substitua pelos dados reais da API
+    email: formData.email 
+  } 
+});
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate('/home');
       }, 1500);
       
     } catch (err) {

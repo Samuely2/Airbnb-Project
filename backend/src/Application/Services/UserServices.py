@@ -22,3 +22,21 @@ class UsersService:
         except Exception as e:
             session.rollback()
             raise e
+
+from src.database import db
+from src.Infrastructure.Models.UserModel import Users
+from sqlalchemy.exc import SQLAlchemyError
+
+class UsersService:
+    @staticmethod
+    def login_user(session, email, password):
+        try:
+            user = session.query(Users).filter_by(email=email).first()
+            
+            # Verifica se usuário existe e se a senha coincide (comparação direta)
+            if user and user.password == password:
+                return user
+            return None
+                
+        except SQLAlchemyError as e:
+            raise Exception(f"Erro durante o login: {str(e)}")

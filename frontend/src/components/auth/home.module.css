@@ -1,0 +1,26 @@
+.homeContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garante que o footer fique no final */
+  }
+  
+  .mainContent {
+    flex: 1;
+    padding: 2rem;
+    text-align: center;
+    background-color: #f8f9fa;
+  }
+  
+  .logoutButton {
+    padding: 0.5rem 1rem;
+    background-color: #4a6fa5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  
+  .logoutButton:hover {
+    background-color: #3a5a80;
+  }
