@@ -1,0 +1,51 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      FLASK_APP: app.py  # Aponte para o arquivo correto
+      FLASK_ENV: development
+      MYSQL_HOST: db
+      MYSQL_ROOT_PASSWORD: '123456'
+      MYSQL_DATABASE: mydb  # Corrigido para MYSQL_DATABASE
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mysql:latest
+    container_name: airbnb-db 
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456'
+      MYSQL_DATABASE: mydb 
+    ports:
+      - "3307:3306"
+    volumes:
+      - my-db-volume:/var/lib/mysql
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: '123456'
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+volumes:
+  my-db-volume:
+
+networks:
+  app-network:
