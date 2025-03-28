@@ -12,18 +12,37 @@ def create_user():
     try:
         data = request.json
         required_fields = ["name", "phone", "email", "password", "address"]
-
-        if not all(data.get(field) for field in required_fields):
+        
+        if not all(field in data for field in required_fields):
             return jsonify({"error": "Missing required fields"}), 400
 
-        typeUser = data.pop("typeUser", "Dono")
-        typeUserEnum = next((member for member in TypeUserEnum if member.value == typeUser), None)
-
+        typeUser = data.get("typeUser", "Dono")
+        typeUserEnum = next((m for m in TypeUserEnum if m.value == typeUser), None)
+        
         if not typeUserEnum:
             return jsonify({"error": "Invalid user type"}), 400
 
-        user = UsersService.create_user(db.session, **data, typeUser=typeUserEnum)
-        return jsonify({"message": "User created successfully", "user_id": user.id}), 201
+        user_data = {
+            "name": data["name"],
+            "phone": data["phone"],
+            "email": data["email"],
+            "password": data["password"],  # Deve ser hashada antes!
+            "address": data["address"],
+            "typeUser": typeUserEnum
+        }
+
+        # Chamada CORRETA ao método:
+        user = UsersService.create(db.session, user_data)
+        
+        return jsonify({
+            "message": "User created successfully",
+            "user_id": user.id,
+            "user": {
+                "name": user.name,
+                "email": user.email
+            }
+        }), 201
+        
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

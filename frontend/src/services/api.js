@@ -2,25 +2,18 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: process.env.NODE_ENV === 'development' 
-    ? 'http://localhost:5000' 
+    ? 'http://localhost:5000'
     : 'http://backend:5000',
   headers: {
-    'Content-Type': 'application/json'
-  }
-});
-
-// Configuração para adicionar o token JWT em requisições subsequentes
-api.interceptors.request.use(config => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  },
+  withCredentials: true
 });
 
 export const registerUser = async (userData) => {
   try {
-    const response = await api.post('/users', {
+    const response = await api.post('/users/', { 
       name: userData.name,
       phone: userData.phone,
       email: userData.email,
@@ -30,7 +23,10 @@ export const registerUser = async (userData) => {
     });
     return response.data;
   } catch (error) {
-    throw error.response?.data || { error: 'Erro ao cadastrar usuário' };
+    const errorData = error.response?.data || {
+      error: error.message || 'Erro desconhecido no cadastro'
+    };
+    throw errorData;
   }
 };
 

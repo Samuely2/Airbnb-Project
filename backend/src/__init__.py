@@ -8,7 +8,15 @@ from src.Application.Routes.UserRoutes import user_bp
 
 def create_app():
     app = Flask(__name__)
-    CORS(app) 
+    CORS(app, 
+     resources={
+         r"/users/*": {
+             "origins": ["http://localhost:3000"],
+             "methods": ["GET", "POST", "OPTIONS"],
+             "allow_headers": ["Content-Type", "Authorization"],
+             "supports_credentials": True  # ← Isso é crucial!
+         }
+     })
 
     # Configuração do banco de dados
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@db/mydb'
@@ -22,6 +30,6 @@ def create_app():
     app.register_blueprint(hall_bp)
     app.register_blueprint(typehall_bp)
     app.register_blueprint(reservation_bp)
-    app.register_blueprint(user_bp)
+    app.register_blueprint(user_bp, url_prefix='/users')
 
     return app
