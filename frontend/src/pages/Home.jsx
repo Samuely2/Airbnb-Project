@@ -1,12 +1,12 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import Header from '../components/auth/Header';
-import Footer from '../components/auth/Footers';
+import Header from '../components/header/Header';
+import Footer from '../components/footer/Footers';
 import styles from '../components/auth/home.module.css'; 
 
 export default function Home() {
   const location = useLocation();
   const navigate = useNavigate();
-  const userName = location.state?.name || 'Usuário'; // Nome do usuário passado no login/registro
+  const userName = location.state?.name || 'Usuário'; 
 
   const handleLogout = () => {
     navigate('/login');
