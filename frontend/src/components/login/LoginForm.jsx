@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../../services/userService';
+import { loginUser, getCurrentUser } from '../../services/userService';
 import styles from './LoginForm.module.css';
 
 const LoginForm = () => {
@@ -27,21 +27,31 @@ const LoginForm = () => {
         throw new Error('Preencha todos os campos');
       }
 
+      // Executa o login e armazena o token automaticamente
       await loginUser(formData);
+      
+      // Obtém os dados do usuário logado
+      const user = getCurrentUser();
+      
       setMessage('Login realizado com sucesso!');
-      // Após o sucesso da API:
-navigate('/home', { 
-  state: { 
-    name: formData.name, // Substitua pelos dados reais da API
-    email: formData.email 
-  } 
-});
+
+      // Redireciona após 1.5 segundos com os dados reais da API
       setTimeout(() => {
-        navigate('/home');
+        navigate('/home', { 
+          state: { 
+            name: user.name,
+            email: user.email,
+            typeUser: user.typeUser
+          } 
+        });
       }, 1500);
       
     } catch (err) {
-      setError(err.message || 'Erro ao fazer login');
+      // Mensagem mais amigável para credenciais inválidas
+      const errorMessage = err.error === 'Invalid credentials' 
+        ? 'E-mail ou senha incorretos' 
+        : err.message;
+      setError(errorMessage);
     }
   };
 

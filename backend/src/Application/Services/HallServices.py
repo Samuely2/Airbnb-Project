@@ -1,6 +1,5 @@
 from src.Infrastructure.Models.HallModel import Hall
 from src.Infrastructure.Models.UserModel import Users
-from src.Infrastructure.Models.TypeHallModel import TypeHall
 
 class HallServices:
     @staticmethod

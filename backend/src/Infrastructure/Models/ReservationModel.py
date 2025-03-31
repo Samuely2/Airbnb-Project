@@ -1,8 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
+from src.database import db
 from src.Domain.enums.reservationStatusEnum import ReservationStatusEnum
-
-
-db = SQLAlchemy()
 
 class Reservation(db.Model):
     __tablename__ = "Reservations"
@@ -16,8 +13,8 @@ class Reservation(db.Model):
     
     status = db.Column(db.Enum(ReservationStatusEnum), default=ReservationStatusEnum.PENDING, nullable=False)
 
-    hall = db.relationship("Halls", backref="reservations")
-    user = db.relationship("Users", backref="reservations")
+    hall = db.relationship("Hall", backref="reservations")  
+    user = db.relationship("Users", backref="reservations") 
 
     def __init__(self, fk_hall, fk_user, start_date, end_date, status=ReservationStatusEnum.PENDING):
         self.fk_hall = fk_hall

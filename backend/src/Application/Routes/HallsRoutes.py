@@ -14,12 +14,10 @@ def create_hall():
         location = data.get("location")
         description = data.get("description")
         fk_owner = data.get("fk_owner")
-        fk_typeHall = data.get("fk_typeHall")
-
-        if not all([name, location, fk_owner, fk_typeHall]):
+        if not all([name, location, fk_owner]):
             return jsonify({"error": "Missing required fields"}), 400
 
-        hall = HallServices.create_hall(db.session, name, location, description, fk_owner, fk_typeHall)
+        hall = HallServices.create_hall(db.session, name, location, description, fk_owner, )
         return jsonify({"message": "Hall created successfully", "hall": hall.id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500

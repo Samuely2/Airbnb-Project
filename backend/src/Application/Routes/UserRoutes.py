@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flasgger import swag_from
+import jwt
 from src.database import db
 from src.Application.Services.UserServices import UsersService
 from src.Infrastructure.Models.UserModel import Users
@@ -26,12 +27,11 @@ def create_user():
             "name": data["name"],
             "phone": data["phone"],
             "email": data["email"],
-            "password": data["password"],  # Deve ser hashada antes!
+            "password": data["password"],  
             "address": data["address"],
             "typeUser": typeUserEnum
         }
 
-        # Chamada CORRETA ao método:
         user = UsersService.create(db.session, user_data)
         
         return jsonify({
@@ -48,24 +48,25 @@ def create_user():
 
 @user_bp.route("/login", methods=["POST"])
 def login():
-    try:
-        data = request.json
-        
-        if not data or "email" not in data or "password" not in data:
-            return jsonify({"error": "Email e senha são obrigatórios"}), 400
+    data = request.get_json()
+    
+    if not data or "email" not in data or "password" not in data:
+        return jsonify({"error": "Email e senha são obrigatórios"}), 400
 
-        user = UsersService.login_user(db.session, data['email'], data['password'])
+    try:
+        token = UsersService.login_user(db.session, data['email'], data['password'])
         
-        if not user:
+        if not token:
             return jsonify({"error": "Credenciais inválidas"}), 401
 
+        decoded = jwt.decode(token, options={"verify_signature": False}) 
+        
         return jsonify({
-            "message": "Login realizado com sucesso",
+            "token": token,
             "user": {
-                "id": user.id,
-                "name": user.name,
-                "email": user.email,
-                "typeUser": user.typeUser.value if hasattr(user.typeUser, 'value') else user.typeUser
+                "id": decoded["id"],
+                "name": decoded["name"],
+                "typeUser": decoded["typeUser"]
             }
         }), 200
 

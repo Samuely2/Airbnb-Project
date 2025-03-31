@@ -8,7 +8,7 @@ class Users(db.Model):
     name = db.Column(db.String(100), nullable=False)    
     phone = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(300), nullable=False)
     address = db.Column(db.String(100), nullable=False)
     typeUser = db.Column(db.Enum(TypeUserEnum), nullable=False, default=TypeUserEnum.OWNER)
 

@@ -10,15 +10,21 @@ const RegisterForm = () => {
     email: '',
     password: '',
     address: '',
-    typeUser: 'Dono'
+    typeUser: 1 // Valor inicial como número
   });
+  
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    // Converte para número apenas no campo typeUser
+    const parsedValue = name === 'typeUser' ? parseInt(value, 10) : value;
+    setFormData(prev => ({ 
+      ...prev, 
+      [name]: parsedValue 
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -27,16 +33,19 @@ const RegisterForm = () => {
     setMessage('');
     
     try {
-      if (!formData.name || !formData.phone || !formData.email || !formData.password || !formData.address) {
+      // Validação dos campos obrigatórios
+      if (!formData.name || !formData.phone || !formData.email || 
+          !formData.password || !formData.address) {
         throw new Error('Preencha todos os campos obrigatórios');
       }
 
+      // Envio dos dados convertidos
       await registerUser(formData);
+      
       setMessage('Cadastro realizado com sucesso!');
       
-      setTimeout(() => {
-        navigate('/login');
-      }, 1500);
+      // Redirecionamento após 1.5 segundos
+      setTimeout(() => navigate('/login'), 1500);
       
     } catch (err) {
       setError(err.message || 'Erro ao realizar cadastro');
@@ -123,9 +132,9 @@ const RegisterForm = () => {
               onChange={handleChange}
               className={styles.select}
             >
-              <option value="Dono">Dono</option>
-              <option value="Contratante">Contratante</option>
-              <option value="Ambos">Ambos</option>
+              <option value={1}>Dono</option>
+              <option value={2}>Contratante</option>
+              <option value={3}>Ambos</option>
             </select>
           </div>
 
@@ -135,7 +144,8 @@ const RegisterForm = () => {
         </form>
 
         <div className={styles.footer}>
-          Já possui uma conta? <Link to="/login" className={styles.link}>Faça login</Link>
+          Já possui uma conta? {' '}
+          <Link to="/login" className={styles.link}>Faça login</Link>
         </div>
       </div>
     </div>
