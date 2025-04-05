@@ -1,0 +1,236 @@
+.dashboardContainer {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .title {
+    color: #2c3e50;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .tabButton {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #7f8c8d;
+  }
+  
+  .tabButton.active {
+    color: #3498db;
+    border-bottom: 2px solid #3498db;
+  }
+  
+  .propertySection {
+    margin-top: 20px;
+  }
+  
+  .propertyGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .propertyCard {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+  }
+  
+  .propertyCard:hover {
+    transform: translateY(-5px);
+  }
+  
+  .propertyImage {
+    height: 150px;
+    background-color: #eee;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .propertyInfo {
+    padding: 15px;
+  }
+  
+  .propertyInfo h3 {
+    margin: 0 0 10px;
+    color: #2c3e50;
+  }
+  
+  .propertyInfo p {
+    margin: 5px 0;
+    color: #7f8c8d;
+    font-size: 14px;
+  }
+  
+  .propertyActions {
+    margin-top: 15px;
+  }
+  
+  .viewButton {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+  }
+  
+  .viewButton:hover {
+    background-color: #2980b9;
+  }
+  
+  .propertyDetail {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .detailContent {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+  }
+  
+  .calendarSection {
+    flex: 1;
+  }
+  
+  .interestedSection {
+    flex: 1;
+  }
+  
+  .toggleInterested {
+    background-color: #e67e22;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+  
+  .interestedList {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .interestedItem {
+    background: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .contactButton {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+  }
+  
+  /* Estilos para o calendário */
+  .react-calendar {
+    width: 100%;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .unavailableDay {
+    background-color: #ffdddd;
+    text-decoration: line-through;
+  }
+  
+  /* Estilos para a seção de reservas */
+  .bookingsSection {
+    margin-top: 20px;
+  }
+  
+  .bookingTabs {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .bookingTab {
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .bookingTab.active {
+    border-bottom: 2px solid #3498db;
+    color: #3498db;
+  }
+  
+  .bookingList {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bookingItem {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .bookingItem:last-child {
+    border-bottom: none;
+  }
+  
+  .bookingActions {
+    margin-top: 10px;
+  }
+  
+  .acceptButton {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  .rejectButton {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .confirmed {
+    color: #27ae60;
+    font-weight: bold;
+  }
+  
+  .pending {
+    color: #f39c12;
+    font-weight: bold;
+  }
