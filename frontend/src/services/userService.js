@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 // Configuração global do Axios
 const api = axios.create({
-  baseURL: "/users",
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -38,15 +39,32 @@ api.interceptors.response.use(
 export const userService = {
   async register(userData) {
     try {
-      const response = await api.post('/users', {
+      const response = await api.post('/users/register', {
         name: userData.name,
         phone: userData.phone,
         email: userData.email,
         password: userData.password,
         address: userData.address,
-        typeUser: userData.typeUser || 1
+        typeUser: userData.typeUser || 'OWNER' // Padrão para OWNER se não especificado
       });
-      return response.data;
+
+      // Processar resposta de sucesso
+      if (response.data.token) {
+        const decoded = jwtDecode(response.data.token);
+        const userInfo = {
+          ...response.data.user,
+          typeUser: decoded.typeUser // Garantimos que vem do token
+        };
+        
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(userInfo));
+      }
+
+      return {
+        success: true,
+        user: response.data.user,
+        token: response.data.token
+      };
     } catch (error) {
       throw this.handleError(error, 'Erro no cadastro');
     }
@@ -54,16 +72,29 @@ export const userService = {
 
   async login(credentials) {
     try {
-      const response = await api.post('/users/login', credentials);
-      
+      const response = await api.post('/users/login', {
+        email: credentials.email,
+        password: credentials.password
+      });
+
       if (response.data.token) {
+        const decoded = jwtDecode(response.data.token);
+        const userInfo = {
+          ...response.data.user,
+          typeUser: decoded.typeUser // Garantimos que vem do token
+        };
+        
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('user', JSON.stringify(userInfo));
       }
-      
-      return response.data;
+
+      return {
+        success: true,
+        user: response.data.user,
+        token: response.data.token
+      };
     } catch (error) {
-      throw this.handleError(error, 'Erro no login');
+      throw this.handleError(error, 'Credenciais inválidas');
     }
   },
 
@@ -71,22 +102,78 @@ export const userService = {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     delete api.defaults.headers.common['Authorization'];
+    window.location.href = '/login';
   },
 
   getCurrentUser() {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+    try {
+      const token = localStorage.getItem('token');
+      const userData = localStorage.getItem('user');
+
+      if (!token || !userData) return null;
+
+      // Verificar se o token está expirado
+      const decoded = jwtDecode(token);
+      if (decoded.exp * 1000 < Date.now()) {
+        this.logout();
+        return null;
+      }
+
+      return JSON.parse(userData);
+    } catch (error) {
+      this.logout();
+      return null;
+    }
+  },
+
+  getUserType() {
+    const user = this.getCurrentUser();
+    return user?.typeUser || null;
+  },
+
+  isOwner() {
+    return this.getUserType() === 'OWNER';
+  },
+
+  isContractor() {
+    return this.getUserType() === 'CONTRACTOR';
+  },
+
+  isBoth() {
+    return this.getUserType() === 'BOTH';
+  },
+
+  async updateProfile(profileData) {
+    try {
+      const response = await api.put('/users/me', profileData);
+      
+      if (response.data) {
+        const currentUser = this.getCurrentUser();
+        const updatedUser = {
+          ...currentUser,
+          ...response.data
+        };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      }
+      
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error, 'Erro ao atualizar perfil');
+    }
   },
 
   handleError(error, defaultMessage) {
     console.error('Erro:', error);
     
-    const errorData = error.response?.data || {
-      error: error.message || defaultMessage
+    const errorData = {
+      message: error.response?.data?.error || error.message || defaultMessage,
+      status: error.response?.status,
+      data: error.response?.data
     };
     
+    // Logout automático se não autorizado
     if (error.response?.status === 401) {
-      errorData.error = 'Sessão expirada. Faça login novamente.';
+      this.logout();
     }
     
     return errorData;

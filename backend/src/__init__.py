@@ -5,8 +5,9 @@ from src.Application.Routes.HallsRoutes import hall_bp
 from src.Application.Routes.ReservationRoutes import reservation_bp
 from src.Application.Routes.UserRoutes import user_bp
 
-def create_app():
+def create_app():    
     app = Flask(__name__)
+    app.url_map.strict_slashes = False
 
     # Configurações do banco de dados
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@db/mydb'
@@ -24,6 +25,7 @@ def create_app():
          expose_headers=["Authorization"],
          methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     )
+    CORS(app, resources={r"/*": {"origins": "*"}})
 
     # Registro dos blueprints
     app.register_blueprint(hall_bp)

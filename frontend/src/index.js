@@ -1,19 +1,25 @@
+// src/index.js (raiz do projeto)
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext'; // Crie este contexto se necessário
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Importe o CSS global se existir
+import './index.css';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-// Remova o StrictMode para teste:
+
 root.render(
-  <App />
-  // Em vez de:
-  // <React.StrictMode>
-  //   <App />
-  // </React.StrictMode>
+  <React.StrictMode>
+    <BrowserRouter>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Opcional: Configuração para medir performance
 reportWebVitals();

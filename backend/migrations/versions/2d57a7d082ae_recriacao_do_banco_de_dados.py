@@ -1,8 +1,8 @@
-"""Recriação do banco de dados
+"""recriacao do banco de dados
 
-Revision ID: 86b2c3b35b91
+Revision ID: 2d57a7d082ae
 Revises: 
-Create Date: 2025-03-31 00:30:51.199259
+Create Date: 2025-04-05 23:15:48.141030
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '86b2c3b35b91'
+revision = '2d57a7d082ae'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,17 +26,26 @@ def upgrade():
     sa.Column('password', sa.String(length=300), nullable=False),
     sa.Column('address', sa.String(length=100), nullable=False),
     sa.Column('typeUser', sa.Enum('OWNER', 'CONTRACTOR', 'BOTH', name='typeuserenum'), nullable=False),
+    sa.Column('profile_picture', sa.String(length=255), nullable=True),
+    sa.Column('is_active', sa.Boolean(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
     op.create_table('Halls',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=100), nullable=False),
-    sa.Column('location', sa.String(length=100), nullable=False),
-    sa.Column('description', sa.String(length=255), nullable=True),
-    sa.Column('typeHall', sa.Enum('APARTAMENT', 'HOUSE', 'HOTEL', name='typehallenum'), nullable=False),
+    sa.Column('description', sa.Text(), nullable=True),
+    sa.Column('capacity', sa.Integer(), nullable=False),
+    sa.Column('price_per_hour', sa.Float(), nullable=False),
+    sa.Column('address', sa.String(length=200), nullable=False),
+    sa.Column('amenities', sa.JSON(), nullable=True),
+    sa.Column('images', sa.JSON(), nullable=True),
     sa.Column('fk_owner', sa.Integer(), nullable=False),
-    sa.Column('image', sa.String(length=255), nullable=True),
+    sa.Column('is_active', sa.Boolean(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['fk_owner'], ['Users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -46,7 +55,10 @@ def upgrade():
     sa.Column('fk_user', sa.Integer(), nullable=False),
     sa.Column('start_date', sa.DateTime(), nullable=False),
     sa.Column('end_date', sa.DateTime(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.Column('status', sa.Enum('PENDING', 'CONFIRMED', 'CANCELED', name='reservationstatusenum'), nullable=False),
+    sa.Column('notes', sa.Text(), nullable=True),
     sa.ForeignKeyConstraint(['fk_hall'], ['Halls.id'], ),
     sa.ForeignKeyConstraint(['fk_user'], ['Users.id'], ),
     sa.PrimaryKeyConstraint('id')

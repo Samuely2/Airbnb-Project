@@ -1,184 +1,287 @@
 .dashboardContainer {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .title {
-    color: #2c3e50;
-    margin-bottom: 30px;
-    text-align: center;
-  }
-  
-  .tabs {
-    display: flex;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .tabButton {
-    padding: 10px 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    color: #7f8c8d;
-  }
-  
-  .tabButton.active {
-    color: #3498db;
-    border-bottom: 2px solid #3498db;
-  }
-  
-  .propertySection {
-    margin-top: 20px;
-  }
-  
-  .propertyGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  
-  .propertyCard {
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-  }
-  
-  .propertyCard:hover {
-    transform: translateY(-5px);
-  }
-  
-  .propertyImage {
-    height: 150px;
-    background-color: #eee;
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .propertyInfo {
-    padding: 15px;
-  }
-  
-  .propertyInfo h3 {
-    margin: 0 0 10px;
-    color: #2c3e50;
-  }
-  
-  .propertyInfo p {
-    margin: 5px 0;
-    color: #7f8c8d;
-    font-size: 14px;
-  }
-  
-  .reserveButton {
-    background-color: #e67e22;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-  }
-  
-  .reserveButton:hover {
-    background-color: #d35400;
-  }
-  
-  .reservationFlow {
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .calendarContainer {
-    margin: 20px 0;
-  }
-  
-  .reservationActions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-  }
-  
-  .confirmButton {
-    background-color: #27ae60;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .cancelButton {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .bookingsSection {
-    margin-top: 20px;
-  }
-  
-  .bookingList {
-    background: white;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .bookingItem {
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .bookingItem:last-child {
-    border-bottom: none;
-  }
-  
-  .pending {
-    color: #f39c12;
-    font-weight: bold;
-  }
-  
-  .confirmed {
-    color: #27ae60;
-    font-weight: bold;
-  }
-  
-  .detailsButton {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 5px;
-  }
-  
-  .noBookings {
-    text-align: center;
-    color: #7f8c8d;
-    padding: 20px;
-  }
-  
-  /* Estilos para o calendário */
-  .react-calendar {
-    width: 100%;
-    border: none;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .unavailableDay {
-    background-color: #ffdddd;
-    text-decoration: line-through;
-  }
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.title {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #ddd;
+  justify-content: center;
+}
+
+.tabButton {
+  padding: 0.8rem 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #7f8c8d;
+  transition: all 0.3s;
+  margin: 0 0.5rem;
+  border-radius: 4px 4px 0 0;
+}
+
+.tabButton:hover {
+  color: #3498db;
+  background: #f8f9fa;
+}
+
+.tabButton.active {
+  color: #3498db;
+  border-bottom: 3px solid #3498db;
+  font-weight: 600;
+}
+
+.propertySection {
+  margin-top: 1rem;
+}
+
+.propertyGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.propertyCard {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.propertyCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.propertyImage {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  background-color: #f5f5f5;
+}
+
+.propertyInfo {
+  padding: 1.2rem;
+}
+
+.propertyInfo h3 {
+  margin: 0 0 0.5rem;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+
+.propertyInfo p {
+  margin: 0.3rem 0;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.reserveButton {
+  background-color: #e67e22;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.reserveButton:hover {
+  background-color: #d35400;
+}
+
+.reservationFlow {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+.calendarContainer {
+  margin: 1.5rem 0;
+}
+
+.reservationActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.confirmButton {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.confirmButton:hover {
+  background-color: #219653;
+}
+
+.confirmButton:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.cancelButton {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.cancelButton:hover {
+  background-color: #c0392b;
+}
+
+.bookingsSection {
+  margin-top: 1.5rem;
+}
+
+.bookingList {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bookingItem {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bookingItem:last-child {
+  border-bottom: none;
+}
+
+.pending {
+  color: #f39c12;
+  font-weight: 600;
+}
+
+.confirmed {
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.detailsButton {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  align-self: flex-start;
+  font-size: 0.9rem;
+}
+
+.detailsButton:hover {
+  background-color: #2980b9;
+}
+
+.noBookings {
+  text-align: center;
+  color: #7f8c8d;
+  padding: 2rem;
+}
+
+.unavailableDay {
+  background-color: #ffdddd;
+  text-decoration: line-through;
+}
+
+.react-calendar {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.react-calendar__tile--active {
+  background: #3498db;
+}
+
+.react-calendar__tile--now {
+  background: #ffff76;
+}
+.reservationFlow {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.calendarContainer {
+  margin: 20px 0;
+}
+
+.reservationActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.rejected {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.noBookings {
+  text-align: center;
+  color: #7f8c8d;
+  padding: 20px;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+}
+
+.error {
+  text-align: center;
+  padding: 20px;
+  color: #e74c3c;
+  font-size: 18px;
+}
