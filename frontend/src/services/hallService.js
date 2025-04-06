@@ -1,4 +1,3 @@
-// src/services/hallService.js
 import api from './api';
 
 export const hallService = {
@@ -50,6 +49,7 @@ export const hallService = {
       throw this._handleError(error, 'Erro ao remover salão');
     }
   },
+
   async getAvailableHalls(filters) {
     try {
       const params = {
@@ -63,17 +63,53 @@ export const hallService = {
       throw this._handleError(error, 'Erro ao buscar salões disponíveis');
     }
   },
+
   async checkAvailability(hallId, startDate, endDate) {
     try {
       const response = await api.get(`/halls/${hallId}/availability`, {
         params: {
-          start_date: startDate.toISOString(),
-          end_date: endDate.toISOString()
+          start_date: startDate.toISOString().split('T')[0],
+          end_date: endDate.toISOString().split('T')[0]
         }
       });
       return response.data;
     } catch (error) {
       throw this._handleError(error, 'Erro ao verificar disponibilidade');
+    }
+  },
+
+  async addUnavailableDates(hallId, { startDate, endDate }) {
+    try {
+      const response = await api.post(`/halls/${hallId}/unavailable_dates`, {
+        startDate: startDate.toISOString().split('T')[0],
+        endDate: endDate.toISOString().split('T')[0]
+      });
+      return response.data;
+    } catch (error) {
+      throw this._handleError(error, 'Erro ao adicionar datas indisponíveis');
+    }
+  },
+
+  async getUnavailableDates(hallId) {
+    try {
+      const response = await api.get(`/halls/${hallId}/unavailable_dates`);
+      return response.data;
+    } catch (error) {
+      throw this._handleError(error, 'Erro ao buscar datas indisponíveis');
+    }
+  },
+
+  async removeUnavailableDates(hallId, { startDate, endDate }) {
+    try {
+      const response = await api.delete(`/halls/${hallId}/unavailable_dates`, {
+        data: {
+          startDate: startDate.toISOString().split('T')[0],
+          endDate: endDate.toISOString().split('T')[0]
+        }
+      });
+      return response.data;
+    } catch (error) {
+      throw this._handleError(error, 'Erro ao remover datas indisponíveis');
     }
   },
 

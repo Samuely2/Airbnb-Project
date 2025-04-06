@@ -1,26 +1,207 @@
+/* home.module.css */
+
+/* Container principal */
 .homeContainer {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Garante que o footer fique no final */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Wrapper do conteúdo */
+.mainContentWrapper {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Área de conteúdo principal */
+.mainContent {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  margin-top: 20px;
+  min-height: calc(100vh - 160px);
+  transition: all 0.3s ease;
+}
+
+/* Títulos e textos */
+.contentHeader {
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.contentHeader h1 {
+  color: #2d3748;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.contentHeader p {
+  color: #718096;
+  margin: 10px 0 0;
+}
+
+/* Cards de conteúdo */
+.card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Botão de logout */
+.logoutButton {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 12px 24px;
+  background-color: #ff5a5f;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logoutButton:hover {
+  background-color: #e04a50;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Tela de carregamento */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.loadingSpinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #4a6fa5;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Conteúdo padrão */
+.defaultContent {
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 40px auto;
+}
+
+.defaultContent h1 {
+  color: #4a6fa5;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.defaultContent p {
+  color: #4a5568;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Grid responsivo */
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 1200px) {
+  .mainContent {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 992px) {
+  .mainContentWrapper {
+    padding: 0 15px;
   }
   
   .mainContent {
-    flex: 1;
-    padding: 2rem;
-    text-align: center;
-    background-color: #f8f9fa;
+    min-height: auto;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 8px;
+  }
+  
+  .contentHeader h1 {
+    font-size: 1.5rem;
   }
   
   .logoutButton {
-    padding: 0.5rem 1rem;
-    background-color: #4a6fa5;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 1rem;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
   }
   
-  .logoutButton:hover {
-    background-color: #3a5a80;
+  .defaultContent {
+    padding: 20px;
+    margin: 20px auto;
   }
+}
+
+@media (max-width: 576px) {
+  .mainContentWrapper {
+    padding: 0 10px;
+  }
+  
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .logoutButton {
+    bottom: 15px;
+    right: 15px;
+    padding: 8px 16px;
+  }
+}

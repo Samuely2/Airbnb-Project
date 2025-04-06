@@ -1,19 +1,159 @@
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #4a6fa5;
-    color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .logoImage {
-    font-weight: bold;
-    font-size: 1.5rem;
-    width: 5%;
-  }
-  
-  .userInfo {
-    font-size: 1rem;
-  }
+.sidebar {
+  width: 250px;
+  height: 99vh;
+  background: linear-gradient(135deg, #4a6fa5 0%, #3a5a8a 100%);
+  color: white;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 15px;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.collapsed {
+  width: 80px;
+  align-items: center;
+}
+
+.sidebarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.logo {
+  height: 40px;
+  transition: all 0.3s ease;
+}
+
+.toggleButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggleButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.navMenu {
+  flex-grow: 1;
+}
+
+.navMenu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  margin: 5px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navIcon {
+  font-size: 1.2rem;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.sidebar.collapsed .navIcon {
+  margin-right: 0;
+  font-size: 1.4rem;
+}
+
+.userArea {
+  display: flex;
+  align-items: center;
+  padding: 45px 5px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
+}
+
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  background-color: #ff5a5f;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.userInfo {
+  margin-left: 10px;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.userName {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.userStatus {
+  display: block;
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.logoutButton {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.logoutButton:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Efeitos para o estado recolhido */
+.sidebar.collapsed .navItem {
+  justify-content: center;
+  padding: 15px 0;
+}
+
+.sidebar.collapsed .userArea {
+  justify-content: center;
+  flex-direction: column;
+  padding: 15px 0;
+}
+
+.sidebar.collapsed .userInfo,
+.sidebar.collapsed .logoutButton {
+  display: none;
+}

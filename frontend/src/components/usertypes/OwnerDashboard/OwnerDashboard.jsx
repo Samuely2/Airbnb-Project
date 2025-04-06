@@ -154,7 +154,7 @@ const OwnerDashboard = () => {
     if (!selectedHall) return;
     
     try {
-      await hallService.updateUnavailableDates(selectedHall.id, {
+      await hallService.addUnavailableDates(selectedHall.id, {
         startDate: dateRange[0],
         endDate: dateRange[1]
       });

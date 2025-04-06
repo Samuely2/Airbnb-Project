@@ -1,8 +1,8 @@
-"""recriacao do banco de dados
+"""recriacao banco de dados
 
-Revision ID: 2d57a7d082ae
+Revision ID: ae336fd70e48
 Revises: 
-Create Date: 2025-04-05 23:15:48.141030
+Create Date: 2025-04-06 03:38:20.608904
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2d57a7d082ae'
+revision = 'ae336fd70e48'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -42,6 +42,7 @@ def upgrade():
     sa.Column('address', sa.String(length=200), nullable=False),
     sa.Column('amenities', sa.JSON(), nullable=True),
     sa.Column('images', sa.JSON(), nullable=True),
+    sa.Column('unavailable_dates', sa.JSON(), nullable=True),
     sa.Column('fk_owner', sa.Integer(), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
