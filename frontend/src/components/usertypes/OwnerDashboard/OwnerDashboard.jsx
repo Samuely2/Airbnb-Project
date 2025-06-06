@@ -136,18 +136,37 @@ const OwnerDashboard = () => {
     }
   };
 
-  // Atualizar status da reserva
-  const handleStatusUpdate = async (reservationId, action) => {
-    try {
-      const status = action === 'accept' ? ReservationStatus.CONFIRMED : ReservationStatus.CANCELED;
-      await reservationService.updateStatus(reservationId, status);
-      const updated = await reservationService.getForOwner(user?.id);
-      setReservations(updated);
-      alert(`Reserva ${action === 'accept' ? 'aceita' : 'recusada'} com sucesso!`);
-    } catch (error) {
-      alert(`Erro ao atualizar reserva: ${error.message}`);
+ 
+const handleStatusUpdate = async (reservationId, action) => {
+  try {
+    let status;
+    // Usar toLowerCase() para segurança é uma boa prática
+    const safeAction = action.toLowerCase(); 
+
+    if (safeAction === 'accept') {
+      status = ReservationStatus.CONFIRMED; // Mapeia 'accept' para 'confirmada'
+    } else if (safeAction === 'reject') {
+      // <<< ESTA É A MUDANÇA PRINCIPAL
+      // Mapeia a ação 'reject' para o status 'cancelada'
+      status = ReservationStatus.CANCELED; 
+    } else {
+      throw new Error('Ação desconhecida.');
     }
-  };
+
+    console.log("Enviando este status para a API:", status); // Ótimo para depurar
+
+    await reservationService.updateStatus(reservationId, status);
+    
+    // Recarrega as reservas para mostrar a mudança na tela
+    const updatedReservations = await reservationService.getForOwner(user?.id);
+    setReservations(updatedReservations);
+
+    alert(`Reserva ${status === 'confirmada' ? 'aceita' : 'recusada/cancelada'} com sucesso!`);
+
+  } catch (error) {
+    alert(`Erro ao atualizar o status da reserva: ${error.message}`);
+  }
+};
 
   // Atualizar disponibilidade
   const handleUpdateAvailability = async () => {
@@ -387,18 +406,21 @@ const OwnerDashboard = () => {
                             </p>
                             {reservation.status === ReservationStatus.PENDING && isOwner && (
                               <div className={styles.reservationActions}>
-                                <button 
-                                  className={styles.acceptButton}
-                                  onClick={() => handleStatusUpdate(reservation.id, 'accept')}
-                                >
-                                  Aceitar
-                                </button>
-                                <button 
-                                  className={styles.rejectButton}
-                                  onClick={() => handleStatusUpdate(reservation.id, 'reject')}
-                                >
-                                  Recusar
-                                </button>
+                              <button 
+                                className={styles.acceptButton}
+                                // A ação DEVE SER exatamente 'accept'
+                                onClick={() => handleStatusUpdate(reservation.id, 'accept')}
+                              >
+                                Aceitar
+                              </button>
+
+                              <button 
+                                className={styles.rejectButton}
+                                // A ação DEVE SER exatamente 'reject'
+                                onClick={() => handleStatusUpdate(reservation.id, 'reject')}
+                              >
+                                Recusar
+                              </button>
                               </div>
                             )}
                           </div>
