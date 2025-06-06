@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from src.Domain.enums.reservationStatusEnum import ReservationStatusEnum
 from src.database import db
 from src.Infrastructure.Models.ReservationModel import Reservation
 from src.Infrastructure.Models.UserModel import User
@@ -78,69 +79,32 @@ def get_reservation(reservation_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 404 if "404" in str(e) else 500
 
-@reservation_bp.route("/<int:reservation_id>", methods=["PUT"])
-def update_reservation(reservation_id):
-    try:
-        reservation = Reservation.query.get_or_404(reservation_id)
-        data = request.json
-        
-        # Atualizar status (para proprietário)
-        if "status" in data:
-            if data["status"] in ["CONFIRMED", "REJECTED", "CANCELLED"]:
-                reservation.status = data["status"]
-        
-        # Atualizar datas (verificando disponibilidade)
-        if "start_date" in data or "end_date" in data:
-            new_start = datetime.fromisoformat(data.get("start_date", reservation.start_date.isoformat()))
-            new_end = datetime.fromisoformat(data.get("end_date", reservation.end_date.isoformat()))
-            
-            # Verificar conflitos (excluindo a própria reserva)
-            conflicting = Reservation.query.filter(
-                Reservation.fk_hall == reservation.fk_hall,
-                Reservation.id != reservation.id,
-                Reservation.status.in_(["PENDING", "CONFIRMED"]),
-                Reservation.start_date < new_end,
-                Reservation.end_date > new_start
-            ).count()
-            
-            if conflicting > 0:
-                return jsonify({"error": "New dates conflict with existing reservations"}), 400
-            
-            reservation.start_date = new_start
-            reservation.end_date = new_end
-        
-        if "notes" in data:
-            reservation.notes = data["notes"]
-        
-        db.session.commit()
-        return jsonify({
-            "message": "Reservation updated successfully",
-            "reservation": reservation.to_dict()
-        }), 200
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({"error": str(e)}), 500
-
 @reservation_bp.route("/<int:reservation_id>/status", methods=["PUT"])
 def update_reservation_status(reservation_id):
     try:
         reservation = Reservation.query.get_or_404(reservation_id)
         data = request.json
         
-        if "status" not in data:
-            return jsonify({"error": "Status is required"}), 400
+        if not data or "status" not in data:
+            return jsonify({"error": "O campo 'status' é obrigatório"}), 400
         
-        valid_statuses = ["PENDING", "CONFIRMED", "REJECTED", "CANCELLED", "COMPLETED"]
-        if data["status"] not in valid_statuses:
-            return jsonify({"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"}), 400
+        received_status = data["status"]
+
+        valid_statuses = [item.value for item in ReservationStatusEnum]
+        if received_status not in valid_statuses:
+            return jsonify({"error": f"Status inválido. Deve ser um de: {', '.join(valid_statuses)}"}), 400
+    
+        status_as_enum_member = ReservationStatusEnum(received_status)
         
-        reservation.status = data["status"]
+        reservation.status = status_as_enum_member
+        
         db.session.commit()
         
         return jsonify({
-            "message": "Reservation status updated successfully",
-            "reservation": reservation.to_dict()
+            "message": "Status da reserva atualizado com sucesso",
+            "reservation": reservation.to_dict() 
         }), 200
+
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "Ocorreu um erro interno no servidor."}), 500
